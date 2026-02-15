@@ -1,34 +1,18 @@
-pipeline {
-    agent any
+node{
     
-    tools {
-        maven 'local_maven'
+    stage('clone'){
+        git branch: 'feature/2026.02.11', credentialsId: 'vickky9494', url: 'https://github.com/vickky9494/devOpsWeb.git'
     }
-    parameters {
-         string(name: 'staging_server', defaultValue: '13.232.37.20', description: 'Remote Staging Server')
+    stage('Build'){
+        bat 'mvn clean install'
     }
-
-stages{
-        stage('Build'){
-            steps {
-                sh 'mvn clean package'
-            }
-            post {
-                success {
-                    echo 'Archiving the artifacts'
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
-            }
-        }
-
-        stage ('Deployments'){
-            parallel{
-                stage ("Deploy to Staging"){
-                    steps {
-                        sh "scp -v -o StrictHostKeyChecking=no **/*.war root@${params.staging_server}:/opt/tomcat/webapps/"
-                    }
-                }
-            }
-        }
+    stage('Test'){
+        bat "mvn test"
+    }
+    stage('generated test results'){
+        junit 'target/surefire-reports/*.xml'
+    }
+    stage('published Artifacts'){
+        archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
     }
 }
