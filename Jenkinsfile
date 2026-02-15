@@ -1,5 +1,7 @@
-node{
-    
+pipeline{
+
+agent any 
+   
     stage('clone'){
         git branch: 'feature/2026.02.11', credentialsId: 'vickky9494', url: 'https://github.com/vickky9494/devOpsWeb.git'
     }
