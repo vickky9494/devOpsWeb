@@ -23,6 +23,9 @@ steps{
     }
 }
     stage('published Artifacts'){
+steps{
         archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
+}
     }
+}
 }
