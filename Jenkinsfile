@@ -9,9 +9,7 @@ node{
     stage('Test'){
         bat "mvn test"
     }
-    stage('generated test results'){
-        junit 'target/surefire-reports/*.xml'
-    }
+   
     stage('published Artifacts'){
         archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
     }
