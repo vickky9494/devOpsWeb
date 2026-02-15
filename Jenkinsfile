@@ -1,9 +1,9 @@
 pipeline{
 
 agent any 
-   
-    stage('clone'){
-steps{
+   stages{
+      stage('clone'){
+             steps{
         git branch: 'feature/2026.02.11', credentialsId: 'vickky9494', url: 'https://github.com/vickky9494/devOpsWeb.git'
     }
 }
@@ -27,4 +27,5 @@ steps{
         archiveArtifacts artifacts: 'target/*.war', followSymlinks: false
 }
     }
+}
 }
